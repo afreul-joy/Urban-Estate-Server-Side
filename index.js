@@ -8,16 +8,23 @@ const ObjectId = require('mongodb').ObjectId;
 const app = express()
 app.use(cors());
 app.use(express.json())
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5001
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ex382.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vljpp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+console.log(uri);
+
+const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
 async function run() {
     try {
         await client.connect();
-        const database = client.db("realState");
+        console.log("dbms connected");
+        const database = client.db("urbanEstate");
         const allProperties = database.collection("propertiesCollections");
-        const allAgent = database.collection("agentsCollections");
+        const allAgent = database.collection("allAgent");
         const allBlogs = database.collection("blogsCollections");
         const userCollection = database.collection('users');
         const customerReview = database.collection("customerReviewCollections");
@@ -197,5 +204,6 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app ${port}`)
-})
+    console.log(`Server is Running at  http://localhost:${port}`);
+  });
+  
